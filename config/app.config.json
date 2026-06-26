@@ -1,0 +1,23 @@
+{
+  "appName": "AUTO COMM",
+  "businessEcosystem": {
+    "corporate": "Xtreme Polishing Systems",
+    "stores": "XPS Xpress",
+    "installation": "National Concrete Polishing",
+    "training": "Polished Concrete University",
+    "leadGen": "National Epoxy Pros",
+    "website": "xtremepolishingsystems.com",
+    "office": "Pompano Beach, Florida"
+  },
+  "communications": {
+    "primaryChannel": "whatsapp",
+    "verifiedNumber": "+15559730487",
+    "provider": "twilio"
+  },
+  "governance": {
+    "driveCanonical": true,
+    "humanApprovalForOutboundCampaigns": true,
+    "humanApprovalForHighRiskReplies": true,
+    "requireConsentLedger": true
+  }
+}
