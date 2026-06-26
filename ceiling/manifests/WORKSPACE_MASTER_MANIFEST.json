@@ -1,0 +1,25 @@
+{
+  "system": "AUTO COMM",
+  "business_scale_target": "100M annual revenue, 100+ employees, 70+ locations",
+  "drive_root_id": "1HOkQbwWV6wvtUJwuKxbJlzvIhCsuwSh7",
+  "github_repo": "Strategic-Minds/auto-comm",
+  "vercel_root_directory": "apps/dashboard",
+  "primary_channel": "whatsapp",
+  "verified_number": "+15559730487",
+  "canonical_layers": [
+    "drive_blueprint",
+    "github_implementation_mirror",
+    "vercel_runtime",
+    "supabase_data_plane",
+    "n8n_workflows",
+    "auto_builder_governance",
+    "base44_orchestration"
+  ],
+  "protected_actions": [
+    "production_deploy",
+    "outbound_campaign_send",
+    "database_migration",
+    "agent_permission_expansion",
+    "pricing_rule_change"
+  ]
+}
