@@ -1,0 +1,40 @@
+{
+  "project_name": "auto-comm",
+  "repo": "Strategic-Minds/auto-comm",
+  "framework": "nextjs",
+  "root_directory": "apps/dashboard",
+  "timezone": "America/New_York",
+  "routes": [
+    "/dashboard",
+    "/api/webhooks/whatsapp",
+    "/api/cron/daily-validation",
+    "/api/agent/lead-score",
+    "/api/agent/campaign-review"
+  ],
+  "crons": [
+    {
+      "name": "daily-validation",
+      "route": "/api/cron/daily-validation",
+      "schedule": "0 7 * * *"
+    }
+  ],
+  "required_env": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY",
+    "TWILIO_ACCOUNT_SID",
+    "TWILIO_AUTH_TOKEN",
+    "TWILIO_WHATSAPP_NUMBER",
+    "WEBHOOK_SIGNING_SECRET",
+    "AI_GATEWAY_API_KEY",
+    "OPENAI_API_KEY",
+    "BASE44_ORCHESTRATOR_WEBHOOK_URL",
+    "N8N_WEBHOOK_URL"
+  ],
+  "approval_required_for": [
+    "production_deploy",
+    "outbound_campaign_send",
+    "database_migration",
+    "ai_agent_autonomous_action"
+  ]
+}
