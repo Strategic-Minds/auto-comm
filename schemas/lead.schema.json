@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AutoCommLead",
+  "type": "object",
+  "required": ["id", "phone", "consent_status", "source", "created_at"],
+  "properties": {
+    "id": { "type": "string" },
+    "first_name": { "type": "string" },
+    "last_name": { "type": "string" },
+    "company": { "type": "string" },
+    "phone": { "type": "string" },
+    "email": { "type": "string" },
+    "city": { "type": "string" },
+    "state": { "type": "string" },
+    "source": {
+      "type": "string",
+      "enum": ["pcu_attendee", "contractor_list", "website", "store", "referral", "manual", "unknown"]
+    },
+    "consent_status": {
+      "type": "string",
+      "enum": ["confirmed_whatsapp_opt_in", "prior_relationship_needs_repermission", "email_only_permission", "sms_permission", "unknown_consent", "do_not_contact"]
+    },
+    "intent": {
+      "type": "string",
+      "enum": ["training", "products", "installation", "digital_bid", "contractor_partner", "support", "unknown"]
+    },
+    "lead_score": { "type": "number" },
+    "assigned_brand": { "type": "string" },
+    "assigned_location": { "type": "string" },
+    "created_at": { "type": "string" },
+    "updated_at": { "type": "string" }
+  }
+}
