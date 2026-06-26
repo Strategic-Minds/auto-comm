@@ -1,0 +1,30 @@
+{
+  "job_name": "auto_comm_ceiling_bootstrap",
+  "mode": "dry_run_first",
+  "objective": "Build the maximum capability scaffold for AUTO COMM as a governed commercial operating system.",
+  "targets": {
+    "drive_root_id": "1HOkQbwWV6wvtUJwuKxbJlzvIhCsuwSh7",
+    "github_repo": "Strategic-Minds/auto-comm",
+    "vercel_project": "auto-comm",
+    "root_directory": "apps/dashboard"
+  },
+  "workstreams": [
+    "drive_manifest_validation",
+    "github_manifest_validation",
+    "vercel_dashboard_and_api_validation",
+    "ai_gateway_planning",
+    "vercel_agent_planning",
+    "supabase_schema_alignment",
+    "n8n_workflow_alignment",
+    "campaign_and_template_registry",
+    "rag_source_registry",
+    "voice_and_multimodal_readiness",
+    "enterprise_reporting"
+  ],
+  "approval_required_for": [
+    "live_deploy",
+    "campaign_send",
+    "production_database_change",
+    "agent_tool_permission_change"
+  ]
+}
