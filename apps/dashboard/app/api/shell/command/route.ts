@@ -126,13 +126,26 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  if (missing.length > 0 || !config.url) {
+  if (missing.length > 0) {
     return NextResponse.json(
       {
         ok: true,
         mode: "contract_ready",
         message: `${command.action} validated for ${command.target}. Add the missing env values to execute live.`,
         missing_env: missing,
+        audit
+      },
+      { status: 202 }
+    );
+  }
+
+  if (!config.url) {
+    return NextResponse.json(
+      {
+        ok: true,
+        mode: "server_worker_required",
+        message: `${command.action} validated for ${command.target}. Attach a server-side worker or webhook before this target can execute live writes.`,
+        missing_env: [],
         audit
       },
       { status: 202 }
