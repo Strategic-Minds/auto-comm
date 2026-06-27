@@ -1,8 +1,8 @@
-const CACHE_NAME = "auto-chat-pwa-v2";
+const CACHE_NAME = "auto-chat-pwa-v3";
 const CORE_ASSETS = [
   "/",
-  "/pwa",
   "/desktop",
+  "/pwa",
   "/manifest.webmanifest",
   "/icons/auto-chat-icon.svg",
   "/icons/auto-chat-maskable.svg"
@@ -41,7 +41,7 @@ self.addEventListener("fetch", (event) => {
           caches.open(CACHE_NAME).then((cache) => cache.put(request, responseCopy));
           return response;
         })
-        .catch(() => caches.match(request).then((cached) => cached || caches.match("/pwa")))
+        .catch(() => caches.match(request).then((cached) => cached || caches.match("/")))
     );
     return;
   }
