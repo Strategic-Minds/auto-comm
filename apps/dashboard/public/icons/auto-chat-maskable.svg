@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Auto Chat maskable app icon</title>
+  <desc id="desc">Neon green Auto Chat mark with safe padding for home screen masks.</desc>
+  <rect width="512" height="512" fill="#050706"/>
+  <rect x="62" y="62" width="388" height="388" rx="92" fill="#0d120f"/>
+  <path fill="#39ff14" d="M256 120 382 392h-70l-19-48h-75l-19 48h-69l126-272Zm18 169-18-46-18 46h36Z"/>
+  <path fill="#ffffff" d="M174 166c0-22 18-40 40-40h84c22 0 40 18 40 40v16h-49v-7c0-7-6-13-13-13h-40c-7 0-13 6-13 13v7h-49v-16Z" opacity="0.92"/>
+  <circle cx="386" cy="143" r="26" fill="#39ff14"/>
+</svg>
