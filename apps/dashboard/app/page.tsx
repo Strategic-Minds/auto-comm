@@ -1,3 +1,5 @@
+import { PwaInstallButtons } from "./components/PwaInstallButtons";
+
 export default function HomePage() {
   return (
     <main
@@ -15,7 +17,7 @@ export default function HomePage() {
     >
       <section
         style={{
-          width: "min(680px, 100%)",
+          width: "min(720px, 100%)",
           borderRadius: 28,
           padding: 32,
           background: "#050706",
@@ -33,7 +35,8 @@ export default function HomePage() {
               placeItems: "center",
               background: "#39ff14",
               color: "#050706",
-              fontWeight: 950
+              fontWeight: 950,
+              boxShadow: "0 0 28px rgba(57,255,20,.72)"
             }}
           >
             A
@@ -45,24 +48,28 @@ export default function HomePage() {
             </p>
           </div>
         </div>
-        <a
-          href="/dashboard"
-          style={{
-            marginTop: 28,
-            minHeight: 46,
-            borderRadius: 999,
-            padding: "0 18px",
-            display: "inline-flex",
-            alignItems: "center",
-            justifyContent: "center",
-            background: "#39ff14",
-            color: "#050706",
-            fontWeight: 900,
-            textDecoration: "none"
-          }}
-        >
-          Open conversation wall
-        </a>
+        <div style={{ marginTop: 28, display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+          <a
+            href="/dashboard"
+            style={{
+              minHeight: 46,
+              borderRadius: 999,
+              padding: "0 18px",
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              background: "#39ff14",
+              color: "#050706",
+              fontWeight: 900,
+              textDecoration: "none"
+            }}
+          >
+            Open conversation wall
+          </a>
+        </div>
+        <div style={{ marginTop: 18 }}>
+          <PwaInstallButtons tone="dark" />
+        </div>
       </section>
     </main>
   );

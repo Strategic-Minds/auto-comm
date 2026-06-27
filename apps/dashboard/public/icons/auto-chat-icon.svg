@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Auto Chat app icon</title>
+  <desc id="desc">Black rounded square with neon green Auto Chat A mark.</desc>
+  <rect width="512" height="512" rx="108" fill="#050706"/>
+  <circle cx="396" cy="108" r="58" fill="#39ff14" opacity="0.22"/>
+  <circle cx="116" cy="392" r="76" fill="#39ff14" opacity="0.18"/>
+  <path fill="#39ff14" d="M256 92 407 420h-82l-24-58h-93l-24 58h-79L256 92Zm20 207-22-55-22 55h44Z"/>
+  <path fill="#ffffff" d="M160 148c0-26 21-47 47-47h98c26 0 47 21 47 47v20h-55v-11c0-8-6-14-14-14h-54c-8 0-14 6-14 14v11h-55v-20Z" opacity="0.9"/>
+</svg>
