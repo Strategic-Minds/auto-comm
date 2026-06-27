@@ -1,5 +1,3 @@
-import { PwaInstallButtons } from "./components/PwaInstallButtons";
-
 export default function HomePage() {
   return (
     <main
@@ -17,7 +15,7 @@ export default function HomePage() {
     >
       <section
         style={{
-          width: "min(720px, 100%)",
+          width: "min(780px, 100%)",
           borderRadius: 28,
           padding: 32,
           background: "#050706",
@@ -44,31 +42,46 @@ export default function HomePage() {
           <div>
             <h1 style={{ margin: 0, fontSize: 34, lineHeight: 1 }}>Auto Chat</h1>
             <p style={{ margin: "6px 0 0", color: "rgba(255,255,255,.68)", fontWeight: 700 }}>
-              Governed WhatsApp and social conversation command center.
+              Choose the desktop command center or the separate installable PWA.
             </p>
           </div>
         </div>
-        <div style={{ marginTop: 28, display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+        <div style={{ marginTop: 28, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: 12 }}>
           <a
-            href="/dashboard"
+            href="/desktop"
             style={{
-              minHeight: 46,
-              borderRadius: 999,
+              minHeight: 54,
+              borderRadius: 18,
               padding: "0 18px",
               display: "inline-flex",
               alignItems: "center",
               justifyContent: "center",
               background: "#39ff14",
               color: "#050706",
-              fontWeight: 900,
+              fontWeight: 950,
               textDecoration: "none"
             }}
           >
-            Open conversation wall
+            Open Desktop Command
           </a>
-        </div>
-        <div style={{ marginTop: 18 }}>
-          <PwaInstallButtons tone="dark" />
+          <a
+            href="/pwa"
+            style={{
+              minHeight: 54,
+              borderRadius: 18,
+              padding: "0 18px",
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              background: "rgba(255,255,255,.1)",
+              color: "#fff",
+              fontWeight: 950,
+              textDecoration: "none",
+              boxShadow: "inset 0 0 0 1px rgba(255,255,255,.16)"
+            }}
+          >
+            Open Separate PWA
+          </a>
         </div>
       </section>
     </main>
