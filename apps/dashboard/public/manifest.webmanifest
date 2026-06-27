@@ -1,0 +1,37 @@
+{
+  "name": "Auto Chat",
+  "short_name": "Auto Chat",
+  "description": "Governed WhatsApp and social multi-agent conversation command center.",
+  "id": "/dashboard",
+  "start_url": "/dashboard?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "orientation": "portrait-primary",
+  "background_color": "#050706",
+  "theme_color": "#39ff14",
+  "categories": ["business", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/icons/auto-chat-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/auto-chat-maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Conversation Wall",
+      "short_name": "Wall",
+      "description": "Open the live Auto Chat conversation wall.",
+      "url": "/dashboard",
+      "icons": [{ "src": "/icons/auto-chat-icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+    }
+  ]
+}
