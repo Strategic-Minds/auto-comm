@@ -1,13 +1,13 @@
 {
-  "name": "Auto Chat PWA",
+  "name": "Auto Chat",
   "short_name": "Auto Chat",
-  "description": "Separate installable Auto Chat app for mobile multi-agent communication control.",
-  "id": "/pwa",
-  "start_url": "/pwa?source=pwa",
+  "description": "Installable Auto Chat command center for WhatsApp, social, and multi-agent communication control.",
+  "id": "/",
+  "start_url": "/?source=pwa",
   "scope": "/",
   "display": "standalone",
   "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
-  "orientation": "portrait-primary",
+  "orientation": "any",
   "background_color": "#050706",
   "theme_color": "#39ff14",
   "categories": ["business", "productivity", "utilities"],
@@ -27,17 +27,24 @@
   ],
   "shortcuts": [
     {
-      "name": "Auto Chat PWA",
-      "short_name": "PWA",
-      "description": "Open the separate Auto Chat PWA.",
-      "url": "/pwa",
+      "name": "Auto Chat",
+      "short_name": "Home",
+      "description": "Open the Auto Chat command center.",
+      "url": "/",
       "icons": [{ "src": "/icons/auto-chat-icon.svg", "sizes": "any", "type": "image/svg+xml" }]
     },
     {
-      "name": "Desktop Command",
+      "name": "Desktop Console",
       "short_name": "Desktop",
       "description": "Open the dedicated desktop command center.",
       "url": "/desktop",
+      "icons": [{ "src": "/icons/auto-chat-icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+    },
+    {
+      "name": "PWA Fallback",
+      "short_name": "PWA",
+      "description": "Open the legacy install helper route.",
+      "url": "/pwa",
       "icons": [{ "src": "/icons/auto-chat-icon.svg", "sizes": "any", "type": "image/svg+xml" }]
     }
   ]
