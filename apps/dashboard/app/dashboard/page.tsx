@@ -2,51 +2,246 @@
 
 import { useMemo, useState } from "react";
 
-const channels = [
-  ["all", "All", "ALL", 128],
-  ["wa", "WhatsApp", "WA", 48],
-  ["fb", "Facebook", "FB", 20],
-  ["ig", "Instagram", "IG", 31],
-  ["tt", "TikTok", "TT", 17],
-  ["sc", "Snapchat", "SC", 12]
-] as const;
+type ChannelKey = "all" | "wa" | "fb" | "ig" | "tt" | "sc";
+type SocialChannelKey = Exclude<ChannelKey, "all">;
 
-const conversations = [
-  ["maya-wa", "wa", "WA", "Maya R.", "ARIA Support", "02:14", "Asking if WhatsApp approvals can control social posts before they go live.", "Live", "Approval", "Positive", ["Can it approve posts from WhatsApp before they go live?", "Yes. I can route each publish request to your approval queue first.", "Can I watch the agent conversation while it happens?", "Yes. Auto Chat shows each active thread as a live card."]],
-  ["devon-ig", "ig", "IG", "Devon P.", "Sales Agent", "04:51", "Lead replied to a reel and wants pricing for a social automation build.", "Hot", "Lead", "Interested", ["Saw the automation reel. What does setup cost?", "It depends on channels and volume. Want the MVP or enterprise path?"]],
-  ["linda-fb", "fb", "FB", "Linda K.", "Service Agent", "01:06", "Complaint detected. Draft recovery reply is waiting for manager review.", "Risk", "Review", "Frustrated", ["This is taking too long. I need a real answer.", "I hear you. I am flagging this for direct review now."]],
-  ["jay-tt", "tt", "TT", "Jay M.", "Content Agent", "06:33", "Creator asked for the clip schedule. Agent is sending draft options.", "TikTok", "Draft", "Neutral", ["When do the clips go out?", "I have three draft windows ready. Want morning or evening priority?"]],
-  ["omar-wa", "wa", "WA", "Omar S.", "Booking Agent", "03:18", "Customer confirmed availability. Agent is collecting final requirements.", "Ready", "CRM", "Positive", ["Friday works.", "Perfect. What kind of space are you working with?"]],
-  ["nia-sc", "sc", "SC", "Nia B.", "Social Agent", "00:44", "Snap response received. Agent is qualifying demo interest.", "Snap", "Qualify", "Curious", ["Can I see a demo?", "Yes. Are you looking for WhatsApp, Instagram, or both?"]],
-  ["alex-ig", "ig", "IG", "Alex T.", "DM Agent", "09:21", "Technical question about memory sync and handoff receipts.", "Support", "Normal", "Neutral", ["Where does the memory get stored?", "The app writes conversation state and audit receipts before handoff."]],
-  ["priya-wa", "wa", "WA", "Priya C.", "ARIA Sales", "02:57", "Lead asked for a build timeline. Agent is comparing MVP vs enterprise.", "Buyer", "Quote", "Buyer", ["How long would the first build take?", "MVP is usually the fastest path. Enterprise adds full governance."]],
-  ["marcus-fb", "fb", "FB", "Marcus G.", "Inbox Agent", "07:40", "Invoice resend request found. Agent needs approval to send.", "Finance", "Hold", "Neutral", ["Can you resend the invoice?", "I found it. I need approval before sending account details."]],
-  ["elle-tt", "tt", "TT", "Elle V.", "Trend Agent", "05:12", "Inbound comment thread is being summarized for a content opportunity.", "Trend", "Watch", "Positive", ["This would make a good follow-up video.", "Agreed. I am summarizing the thread for review."]],
-  ["sam-wa", "wa", "WA", "Sam W.", "Onboarding", "08:05", "Agent is walking customer through connecting their WhatsApp number.", "Setup", "Guide", "Neutral", ["Where do I paste the webhook?", "Open the WhatsApp sender settings, then paste the Vercel webhook URL."]],
-  ["rae-sc", "sc", "SC", "Rae L.", "Promo Agent", "01:36", "New campaign reply. Agent is checking eligibility before sending offer.", "New", "Offer", "Interested", ["Is the offer still open?", "I am checking eligibility first so I do not send the wrong details."]]
-] as const;
+type Channel = {
+  key: ChannelKey;
+  label: string;
+  badge: string;
+  count: number;
+};
 
-const priority = new Set(["Live", "Hot", "Risk", "Ready", "Buyer", "New"]);
+type Conversation = {
+  id: string;
+  channel: SocialChannelKey;
+  badge: string;
+  customer: string;
+  agent: string;
+  age: string;
+  summary: string;
+  status: string;
+  stage: string;
+  sentiment: string;
+  transcript: string[];
+};
+
+const channels: Channel[] = [
+  { key: "all", label: "All", badge: "ALL", count: 128 },
+  { key: "wa", label: "WhatsApp", badge: "WA", count: 48 },
+  { key: "fb", label: "Facebook", badge: "FB", count: 20 },
+  { key: "ig", label: "Instagram", badge: "IG", count: 31 },
+  { key: "tt", label: "TikTok", badge: "TT", count: 17 },
+  { key: "sc", label: "Snapchat", badge: "SC", count: 12 }
+];
+
+const conversations: Conversation[] = [
+  {
+    id: "maya-wa",
+    channel: "wa",
+    badge: "WA",
+    customer: "Maya R.",
+    agent: "ARIA Support",
+    age: "02:14",
+    summary: "Asking if WhatsApp approvals can control social posts before they go live.",
+    status: "Live",
+    stage: "Approval",
+    sentiment: "Positive",
+    transcript: [
+      "Can it approve posts from WhatsApp before they go live?",
+      "Yes. I can route each publish request to your approval queue first.",
+      "Can I watch the agent conversation while it happens?",
+      "Yes. Auto Chat shows each active thread as a live card."
+    ]
+  },
+  {
+    id: "devon-ig",
+    channel: "ig",
+    badge: "IG",
+    customer: "Devon P.",
+    agent: "Sales Agent",
+    age: "04:51",
+    summary: "Lead replied to a reel and wants pricing for a social automation build.",
+    status: "Hot",
+    stage: "Lead",
+    sentiment: "Interested",
+    transcript: ["Saw the automation reel. What does setup cost?", "It depends on channels and volume. Want the MVP or enterprise path?"]
+  },
+  {
+    id: "linda-fb",
+    channel: "fb",
+    badge: "FB",
+    customer: "Linda K.",
+    agent: "Service Agent",
+    age: "01:06",
+    summary: "Complaint detected. Draft recovery reply is waiting for manager review.",
+    status: "Risk",
+    stage: "Review",
+    sentiment: "Frustrated",
+    transcript: ["This is taking too long. I need a real answer.", "I hear you. I am flagging this for direct review now."]
+  },
+  {
+    id: "jay-tt",
+    channel: "tt",
+    badge: "TT",
+    customer: "Jay M.",
+    agent: "Content Agent",
+    age: "06:33",
+    summary: "Creator asked for the clip schedule. Agent is sending draft options.",
+    status: "TikTok",
+    stage: "Draft",
+    sentiment: "Neutral",
+    transcript: ["When do the clips go out?", "I have three draft windows ready. Want morning or evening priority?"]
+  },
+  {
+    id: "omar-wa",
+    channel: "wa",
+    badge: "WA",
+    customer: "Omar S.",
+    agent: "Booking Agent",
+    age: "03:18",
+    summary: "Customer confirmed availability. Agent is collecting final requirements.",
+    status: "Ready",
+    stage: "CRM",
+    sentiment: "Positive",
+    transcript: ["Friday works.", "Perfect. What kind of space are you working with?"]
+  },
+  {
+    id: "nia-sc",
+    channel: "sc",
+    badge: "SC",
+    customer: "Nia B.",
+    agent: "Social Agent",
+    age: "00:44",
+    summary: "Snap response received. Agent is qualifying demo interest.",
+    status: "Snap",
+    stage: "Qualify",
+    sentiment: "Curious",
+    transcript: ["Can I see a demo?", "Yes. Are you looking for WhatsApp, Instagram, or both?"]
+  },
+  {
+    id: "alex-ig",
+    channel: "ig",
+    badge: "IG",
+    customer: "Alex T.",
+    agent: "DM Agent",
+    age: "09:21",
+    summary: "Technical question about memory sync and handoff receipts.",
+    status: "Support",
+    stage: "Normal",
+    sentiment: "Neutral",
+    transcript: ["Where does the memory get stored?", "The app writes conversation state and audit receipts before handoff."]
+  },
+  {
+    id: "priya-wa",
+    channel: "wa",
+    badge: "WA",
+    customer: "Priya C.",
+    agent: "ARIA Sales",
+    age: "02:57",
+    summary: "Lead asked for a build timeline. Agent is comparing MVP vs enterprise.",
+    status: "Buyer",
+    stage: "Quote",
+    sentiment: "Buyer",
+    transcript: ["How long would the first build take?", "MVP is usually the fastest path. Enterprise adds full governance."]
+  },
+  {
+    id: "marcus-fb",
+    channel: "fb",
+    badge: "FB",
+    customer: "Marcus G.",
+    agent: "Inbox Agent",
+    age: "07:40",
+    summary: "Invoice resend request found. Agent needs approval to send.",
+    status: "Finance",
+    stage: "Hold",
+    sentiment: "Neutral",
+    transcript: ["Can you resend the invoice?", "I found it. I need approval before sending account details."]
+  },
+  {
+    id: "elle-tt",
+    channel: "tt",
+    badge: "TT",
+    customer: "Elle V.",
+    agent: "Trend Agent",
+    age: "05:12",
+    summary: "Inbound comment thread is being summarized for a content opportunity.",
+    status: "Trend",
+    stage: "Watch",
+    sentiment: "Positive",
+    transcript: ["This would make a good follow-up video.", "Agreed. I am summarizing the thread for review."]
+  },
+  {
+    id: "sam-wa",
+    channel: "wa",
+    badge: "WA",
+    customer: "Sam W.",
+    agent: "Onboarding",
+    age: "08:05",
+    summary: "Agent is walking customer through connecting their WhatsApp number.",
+    status: "Setup",
+    stage: "Guide",
+    sentiment: "Neutral",
+    transcript: ["Where do I paste the webhook?", "Open the WhatsApp sender settings, then paste the Vercel webhook URL."]
+  },
+  {
+    id: "rae-sc",
+    channel: "sc",
+    badge: "SC",
+    customer: "Rae L.",
+    agent: "Promo Agent",
+    age: "01:36",
+    summary: "New campaign reply. Agent is checking eligibility before sending offer.",
+    status: "New",
+    stage: "Offer",
+    sentiment: "Interested",
+    transcript: ["Is the offer still open?", "I am checking eligibility first so I do not send the wrong details."]
+  }
+];
+
+const priorityStatuses = new Set(["Live", "Hot", "Risk", "Ready", "Buyer", "New"]);
 
 export default function DashboardPage() {
-  const [channel, setChannel] = useState("all");
+  const [channel, setChannel] = useState<ChannelKey>("all");
   const [query, setQuery] = useState("");
-  const [selectedId, setSelectedId] = useState(conversations[0][0]);
+  const [selectedId, setSelectedId] = useState(conversations[0].id);
   const [action, setAction] = useState("Watching live");
 
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return conversations.filter((c) => (channel === "all" || c[1] === channel) && (!q || c.join(" ").toLowerCase().includes(q)));
+
+    return conversations.filter((conversation) => {
+      const matchesChannel = channel === "all" || conversation.channel === channel;
+      const searchText = [
+        conversation.customer,
+        conversation.agent,
+        conversation.summary,
+        conversation.status,
+        conversation.stage,
+        conversation.sentiment,
+        conversation.transcript.join(" ")
+      ]
+        .join(" ")
+        .toLowerCase();
+
+      return matchesChannel && (!q || searchText.includes(q));
+    });
   }, [channel, query]);
 
-  const selected = conversations.find((c) => c[0] === selectedId) ?? visible[0] ?? conversations[0];
+  const selected = conversations.find((conversation) => conversation.id === selectedId) ?? visible[0] ?? conversations[0];
 
   return (
     <main className="shell">
       <aside className="side">
         <div className="brand"><b>A</b><div><h1>Auto Chat</h1><p>Live monitor</p></div></div>
         <p className="navtitle">Open channels</p>
-        <div className="channels">{channels.map((c) => <button className={channel === c[0] ? "chan on" : "chan"} key={c[0]} onClick={() => setChannel(c[0])}><span>{c[2]}</span>{c[1]}<b>{c[3]}</b></button>)}</div>
+        <div className="channels">
+          {channels.map((item) => (
+            <button className={channel === item.key ? "chan on" : "chan"} key={item.key} onClick={() => setChannel(item.key)}>
+              <span>{item.badge}</span>{item.label}<b>{item.count}</b>
+            </button>
+          ))}
+        </div>
         <div className="note"><strong>Grid mode</strong><p>Cards stay compact, then open a full observer view when selected.</p></div>
       </aside>
 
@@ -56,11 +251,23 @@ export default function DashboardPage() {
           <div className="actions"><span>Dense</span><span className="black">Escalations 9</span><button onClick={() => setAction("Observing selected")}>Observe selected</button></div>
         </header>
         <div className="filters">
-          <div className="tabs">{channels.map((c) => <button className={channel === c[0] ? "active" : ""} key={c[0]} onClick={() => setChannel(c[0])}>{c[1]} {c[3]}</button>)}</div>
-          <input onChange={(e) => setQuery(e.target.value)} placeholder="Search customer, agent, issue..." value={query} />
+          <div className="tabs">
+            {channels.map((item) => (
+              <button className={channel === item.key ? "active" : ""} key={item.key} onClick={() => setChannel(item.key)}>{item.label} {item.count}</button>
+            ))}
+          </div>
+          <input onChange={(event) => setQuery(event.target.value)} placeholder="Search customer, agent, issue..." value={query} />
         </div>
         <div className="mobile"><Observer action={action} conversation={selected} setAction={setAction} /></div>
-        <section className="grid">{visible.map((c) => <button className={`${selected[0] === c[0] ? "card selected" : "card"} ${c[8] === "Review" ? "hot" : ""}`} key={c[0]} onClick={() => { setSelectedId(c[0]); setAction("Watching live"); }}><span className="head"><b>{c[2]}</b><span><strong>{c[3]}</strong><em>{c[4]} - {c[5]}</em></span><i /></span><span className="msg">{c[6]}</span><span className="tags"><em className={priority.has(c[7]) ? "gold" : ""}>{c[7]}</em><em>{c[8]}</em></span></button>)}</section>
+        <section className="grid">
+          {visible.map((conversation) => (
+            <button className={`${selected.id === conversation.id ? "card selected" : "card"} ${conversation.stage === "Review" ? "hot" : ""}`} key={conversation.id} onClick={() => { setSelectedId(conversation.id); setAction("Watching live"); }}>
+              <span className="head"><b>{conversation.badge}</b><span><strong>{conversation.customer}</strong><em>{conversation.agent} - {conversation.age}</em></span><i /></span>
+              <span className="msg">{conversation.summary}</span>
+              <span className="tags"><em className={priorityStatuses.has(conversation.status) ? "gold" : ""}>{conversation.status}</em><em>{conversation.stage}</em></span>
+            </button>
+          ))}
+        </section>
       </section>
 
       <aside className="desktop"><Observer action={action} conversation={selected} setAction={setAction} /></aside>
@@ -69,13 +276,18 @@ export default function DashboardPage() {
   );
 }
 
-function Observer({ conversation, action, setAction }: { conversation: (typeof conversations)[number]; action: string; setAction: (value: string) => void }) {
-  const channelName = channels.find((c) => c[0] === conversation[1])?.[1] ?? "Channel";
+function Observer({ conversation, action, setAction }: { conversation: Conversation; action: string; setAction: (value: string) => void }) {
+  const channelName = channels.find((item) => item.key === conversation.channel)?.label ?? "Channel";
+
   return (
     <div className="observer">
       <div className="observe-head"><h3>Observe selected</h3><p>Watch the live thread, approve the next reply, take over, or pause the agent.</p></div>
-      <div className="summary"><span>{channelName} live</span><strong>{conversation[3]} with {conversation[4]}</strong><small>Intent: {conversation[8]} - Sentiment: {conversation[9]}</small></div>
-      <div className="thread">{conversation[10].map((line, i) => <p className={i % 2 ? "agent" : ""} key={line}>{i % 2 ? "Agent" : "Customer"}: {line}</p>)}</div>
+      <div className="summary"><span>{channelName} live</span><strong>{conversation.customer} with {conversation.agent}</strong><small>Intent: {conversation.stage} - Sentiment: {conversation.sentiment}</small></div>
+      <div className="thread">
+        {conversation.transcript.map((line, index) => (
+          <p className={index % 2 ? "agent" : ""} key={`${conversation.id}-${index}`}>{index % 2 ? "Agent" : "Customer"}: {line}</p>
+        ))}
+      </div>
       <div className="obs-actions"><button onClick={() => setAction("Approved next reply")}>Approve next reply</button><button className="white" onClick={() => setAction("Human takeover active")}>Take over</button><button className="black" onClick={() => setAction("Agent paused")}>Pause</button><span>{action}</span></div>
     </div>
   );
